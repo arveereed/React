@@ -1,0 +1,18 @@
+{
+  "booklist": [
+    {
+      "id": "1",
+      "title": "Journey to the World",
+      "author": "Arvee",
+      "type": "Fantasy",
+      "description": "I created this just for fun"
+    },
+    {
+      "id": "2",
+      "title": "Hello World",
+      "author": "Carns",
+      "type": "Adventure",
+      "description": "I don't care"
+    }
+  ]
+}
