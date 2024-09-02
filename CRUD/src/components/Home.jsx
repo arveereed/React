@@ -1,4 +1,8 @@
+import { useStoreState } from "easy-peasy";
+import Row from "./Row";
+
 const Home = () => {
+  const books = useStoreState((state) => state.books);
 
   return (
   <table className='table table-bordered'>
@@ -12,7 +16,7 @@ const Home = () => {
       </tr>
     </thead>
     <tbody>
-    
+      {books.map(book => <Row key={book.id} book={book}/>)}
     </tbody>
   </table>
   )
