@@ -7,6 +7,7 @@ import useAxiosFetch from './hooks/useAxiosFetch';
 import { Routes, Route } from "react-router-dom";
 import { useStoreActions } from 'easy-peasy';
 import { useEffect } from 'react';
+import BookDetails from './components/BookDetails';
 
 function App() {
   const { data, fetchError, isLoading } = useAxiosFetch("http://localhost:3500/booklist");
@@ -20,9 +21,10 @@ function App() {
     <div className="container">
       <Header/>
       <Routes>
-        <Route path='/' element={< Home/>}/>
+        <Route path='/' element={<Home fetchError={fetchError} isLoading={isLoading}/>}/>
         <Route path='/addbook' element={<AddBook/>}/>
         <Route path='/edit/:id' element={<EditBook/>}/>
+        <Route path='/readmore/:id' element={<BookDetails/>}/>
         <Route path='*' element={<Missing />}/>
       </Routes>
     </div>

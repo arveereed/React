@@ -30,6 +30,14 @@ const Header = () => {
         </div>
         </>
         }
+        {pathname.includes('readmore') && 
+        <>
+        <h1>Book Details</h1>
+        <div>
+          <Link to="/"><button className="btn btn-primary">Back</button></Link>
+        </div>
+        </>
+        }
     </header>
   )
 }

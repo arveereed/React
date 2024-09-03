@@ -1,7 +1,7 @@
 import { useStoreState } from "easy-peasy";
 import Row from "./Row";
 
-const Home = () => {
+const Home = ({ fetchError, isLoading }) => {
   const books = useStoreState((state) => state.books);
 
   return (
@@ -16,7 +16,21 @@ const Home = () => {
       </tr>
     </thead>
     <tbody>
-      {books.map(book => <Row key={book.id} book={book}/>)}
+      {isLoading && (<h1>Loading Books...</h1>)}
+      {!isLoading && fetchError && (
+        <strong className="text-danger">{fetchError}</strong>
+      )}
+      {!isLoading && !fetchError 
+        && (
+          books.length 
+        ? (
+          books.map(book => <Row key={book.id} book={book}/>) 
+        )
+        : (
+        <p>No Books to display.</p>
+        )
+        )
+      }
     </tbody>
   </table>
   )
