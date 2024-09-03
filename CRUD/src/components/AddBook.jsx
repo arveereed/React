@@ -1,5 +1,6 @@
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const AddBook = () => {
   const navigate = useNavigate();
@@ -15,6 +16,13 @@ const AddBook = () => {
   const setAuthorName = useStoreActions((actions) => actions.setAuthorName);
   const setBookType = useStoreActions((actions) => actions.setBookType);
   const setBookDesc = useStoreActions((actions) => actions.setBookDesc);
+
+  useEffect(() => {
+    setBookTitle('');
+    setAuthorName('');
+    setBookType('');
+    setBookDesc('');
+}, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

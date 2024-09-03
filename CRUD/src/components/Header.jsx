@@ -6,7 +6,7 @@ const Header = () => {
 
   return (
     <header className='d-flex justify-content-between my-4'>
-        {pathname !== "/addbook" && 
+        {pathname === "/" && 
         <>
         <h1>Book list</h1>
         <div>
@@ -14,9 +14,17 @@ const Header = () => {
         </div>
         </>
         }
-         {pathname === "/addbook" && 
+        {pathname === "/addbook" && 
         <>
         <h1>Add New Book</h1>
+        <div>
+          <Link to="/"><button className="btn btn-primary">Back</button></Link>
+        </div>
+        </>
+        }
+        {pathname.includes('edit') && 
+        <>
+        <h1>Edit Book</h1>
         <div>
           <Link to="/"><button className="btn btn-primary">Back</button></Link>
         </div>

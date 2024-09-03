@@ -1,6 +1,7 @@
 import Header from './components/Header';
 import Home from './components/Home';
 import AddBook from './components/AddBook';
+import EditBook from './components/EditBook';
 import Missing from './components/Missing';
 import useAxiosFetch from './hooks/useAxiosFetch';
 import { Routes, Route } from "react-router-dom";
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         <Route path='/' element={< Home/>}/>
         <Route path='/addbook' element={<AddBook/>}/>
+        <Route path='/edit/:id' element={<EditBook/>}/>
         <Route path='*' element={<Missing />}/>
       </Routes>
     </div>

@@ -8,7 +8,7 @@ const Home = () => {
   <table className='table table-bordered'>
     <thead>
       <tr>
-        <th>#</th>
+        <th>id#</th>
         <th>Title</th>
         <th>Author</th>
         <th>Type</th>

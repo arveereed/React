@@ -3,36 +3,22 @@
     {
       "id": "1",
       "title": "Journey to the World",
-      "author": "Arvee",
+      "author": "Arvee Odon",
       "type": "Fantasy",
       "description": "I created this just for fun"
     },
     {
-      "id": "2",
-      "title": "Hello World",
-      "author": "Carns",
-      "type": "Adventure",
-      "description": "I don't care"
-    },
-    {
-      "id": "3",
-      "title": "",
-      "author": "",
-      "type": "",
-      "description": ""
-    },
-    {
       "id": "4",
       "title": "Hekkoioi=",
-      "author": "James",
+      "author": "James Reed",
       "type": "Adventure",
       "description": "asdsadasdasd"
     },
     {
       "id": "5",
-      "title": "Hanynako",
-      "author": "Ronniely",
-      "type": "Horror",
+      "title": "Lat Book",
+      "author": "Ronniely Omnes Last",
+      "type": "Scifi",
       "description": "Hala"
     }
   ]
