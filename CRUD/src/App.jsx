@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import BookDetails from './components/BookDetails';
 
 function App() {
-  const { data, fetchError, isLoading } = useAxiosFetch("http://localhost:3500/booklist");
+  const { data, fetchError, isLoading } = useAxiosFetch("https://render-json-server-jfsy.onrender.com/booklist");
   const setBooks = useStoreActions((actions) => actions.setBooks);
 
   useEffect(() => {
