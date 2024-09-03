@@ -13,6 +13,7 @@ const Home = ({ fetchError, isLoading }) => {
         <th>Author</th>
         <th>Type</th>
         <th>Action</th>
+        <th>Created At</th>
       </tr>
     </thead>
     <tbody>

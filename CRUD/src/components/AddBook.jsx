@@ -1,6 +1,7 @@
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { format } from 'date-fns';
 
 const AddBook = () => {
   const navigate = useNavigate();
@@ -28,12 +29,14 @@ const AddBook = () => {
     e.preventDefault();
     const id = books.length
       ? String(Number(books[books.length - 1].id) + 1) : "1";
+    const datetime = format(new Date(), "MMM dd, yyyy pp");
     const newBook = {
       id, 
       title: bookTitle,
       author: authorName,
       type: bookType,
-      description: bookDesc
+      description: bookDesc,
+      datetime
     }
     addBook(newBook);
     navigate("/");

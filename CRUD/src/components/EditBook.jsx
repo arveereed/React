@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useStoreState, useStoreActions } from "easy-peasy";
+import { format } from 'date-fns';
 
 const EditBook = () => {
   const navigate = useNavigate();
@@ -30,12 +31,14 @@ const EditBook = () => {
   }, [book]);
 
   const handleEdit = (id) => {
+    const datetime = format(new Date(), "MMM dd, yyyy pp");
     const updatedBook = {
       id,
       title: bookTitle,
       author: authorName,
       type: bookType,
-      description: bookDesc
+      description: bookDesc,
+      datetime
     }
 
     editBook(updatedBook);
