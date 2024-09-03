@@ -26,7 +26,6 @@ const EditBook = () => {
       setAuthorName(book.author);
       setBookType(book.type);
       setBookDesc(book.description);
-      console.log(book);
     }
   }, [book]);
 

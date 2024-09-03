@@ -17,9 +17,15 @@ const Home = ({ fetchError, isLoading }) => {
       </tr>
     </thead>
     <tbody>
-      {isLoading && (<h1>Loading Books...</h1>)}
+      {isLoading && (
+        <tr>
+          <td><strong>Loading books....</strong></td>
+        </tr>
+      )}
       {!isLoading && fetchError && (
-        <strong className="text-danger">{fetchError}</strong>
+        <tr>
+          <td><strong className="text-danger">{fetchError}</strong></td>
+        </tr>
       )}
       {!isLoading && !fetchError 
         && (
@@ -28,7 +34,9 @@ const Home = ({ fetchError, isLoading }) => {
           books.map(book => <Row key={book.id} book={book}/>) 
         )
         : (
-        <p>No Books to display.</p>
+          <tr>
+            <td>No Books to display.</td>
+          </tr>
         )
         )
       }
