@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const BASE_URL = 'https://jsonplaceholder.typicode.com'
 
@@ -8,33 +8,60 @@ interface Post {
 }
 
 function App() {
+  const [error, setError]: any = useState()
+  const [isLoading, setIsLoading] = useState(false)
   const [posts, setPosts] = useState<Post[]>([])
+  const [page, setPage] = useState(0)  
+
+  const abortControllerRef = useRef<AbortController | null>(null) // to abort the loadinng of the previous fetch request
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/posts`)
-        if (!response.ok) throw new Error('failed to fetch data')
-        const posts = await response.json()
+      abortControllerRef.current?.abort()
+      abortControllerRef.current = new AbortController()
 
+      setIsLoading(true)
+
+      try {
+        const response = await fetch(`${BASE_URL}/posts?page=${page}`, {
+          signal: abortControllerRef.current?.signal
+        })
+        const posts = await response.json()
         setPosts(posts)
         
       } catch (error: any) {
-        console.log(error.message)
-      }      
+        if (error.name === 'AbortError') {
+          console.log('Aborted')
+          return
+        } 
+        setError(error)
+
+      } finally {
+        setIsLoading(false)
+      }
     }
 
     fetchData()
-  }, [])
+  }, [page])
+
+  if (error) {
+    return <h1>Something went wrong! Please try again</h1>
+  }
 
   return (
     <div className="tutorial">
       <h1>Fetching Data</h1>
-      <ul>
-        {posts.map(post => (
-          <li key={post.id}>{post.title}</li>
-        ))}
-      </ul>
+      <button onClick={() => setPage(prev => prev + 1)}>Increase Page ({page})</button>
+      {isLoading && (
+        <h1>Loading...</h1>
+      )}
+      {!isLoading &&
+        <ul>
+          {posts.map(post => (
+            <li key={post.id}>{post.title}</li>
+          ))}
+        </ul>
+      }
     </div>
   )
 }
