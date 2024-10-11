@@ -1,6 +1,5 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import PostFeed from "./components/PostFeed"
-import { useEffect } from "react"
 
 const BASE_URL = 'https://jsonplaceholder.typicode.com'
 
@@ -12,36 +11,37 @@ interface Post {
 }
 
 function App() {
-  const { 
-    data: posts,
-    isError,
-    isLoading
-   } = useQuery<Post[]>({
+  const queryClient = useQueryClient()
+
+  const { data: posts, isError, isLoading } = useQuery<Post[]>({
     queryKey: ['posts'],
-    queryFn: () => fetch(`${BASE_URL}/posts`).then(res => res.json())
+    queryFn: () => 
+      fetch(`${BASE_URL}/posts`).then(res => 
+        res.json()),
+    staleTime: 4000
+    // refetchInterval: 4000
   })
 
   const { mutate, isPending, isError: isMutationError, isSuccess } = useMutation({
-    mutationFn: (newPost: Omit<Post, 'id'>) => fetch(`${BASE_URL}/posts`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newPost)
-    }).then(res => res.json())
+    mutationFn: (newPost: Omit<Post, 'id'>) => 
+      fetch(`${BASE_URL}/posts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newPost)
+      }).then(res => res.json()),
+    onSuccess: (newPost) => {
+      /* queryClient.invalidateQueries({ queryKey: ['posts']})  */// to refetch again to get the new data
+      queryClient.setQueryData(['posts'], (oldPosts: Post[]) => [...oldPosts, newPost])
+    }
   })
 
-  useEffect(() => {
-    if (posts) {
-      console.log(posts)
-    }
-  }, [posts])
+  if (isSuccess) console.log('Post added') 
 
   return (
     <>
       <button onClick={() => mutate({
         userId: 4,
-        title: "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+        title: "New Post",
         body: "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
       })} disabled={isPending}>{isPending ? 'Adding..' : 'Add Post'}</button>
 
