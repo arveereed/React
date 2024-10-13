@@ -4,7 +4,8 @@ function wait(duration: number) {
   return new Promise(resolve => setTimeout(resolve, duration))
 }
 
-export const getPosts = async () => {
+export const getPosts = async (obj: Object) => {
+  console.log(obj)
   return wait(1000).then(() => [...posts])
 }
 

@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@tanstack/react-query"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import { getPosts, addPost } from "./api/posts"
 
 interface Post {
@@ -6,32 +6,47 @@ interface Post {
   title: string
 }
 
-
 function App() {
-  const { data: posts, isLoading, isError, error } = useQuery<Post[]>({
+  const queryClient = useQueryClient()
+
+  const { data: posts, isLoading, isError, error, isFetching } = useQuery<Post[]>({
     queryKey: ['posts'],
-    queryFn: getPosts
+    queryFn: obj => getPosts(obj)
   })
 
-  const { mutate } = useMutation({
-    mutationFn: (title: string) => addPost(title)
+  const { mutate, isPending } = useMutation({
+    mutationFn: (title: string) => addPost(title),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] })
+    }
   })
 
   return (
     <>
-    <h1>Posts List</h1>
-    <p>
-      <button onClick={() => mutate('New Post')}>Add new Post</button>
-    </p>
-    {isLoading && (
-      <div>Loading...</div>
-    )}
-    {!isLoading && isError && (
-      <div>{JSON.stringify(error)}</div>
-    )}
-      {posts?.map(post => (
-        <div key={post.id}>{post.title}</div>
-      ))}
+      <h1>Posts List</h1>
+      {isLoading && (
+        <div>Loading...</div>
+      )}
+      
+      {!isLoading && isError && (
+        <div>{JSON.stringify(error)}</div>
+      )}
+      
+      {!isLoading && !isError && (
+        <>
+          <p>
+            <button disabled={isPending} onClick={() => mutate('New Post')}>
+              {isPending ? 'Adding new post...' : 'Add new Post' }
+            </button>
+          </p>
+          {posts?.map(post => (
+            <div key={post.id}>{post.title}</div>
+          ))}
+         {isFetching && (
+          <div>Adding..</div>
+          )}
+        </>
+      )}
     </>
   )
 }
